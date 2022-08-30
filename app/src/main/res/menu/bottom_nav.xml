@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home_bottom_nav"
+        android:title="Home"
+        android:icon="@drawable/home"/>
+
+    <item
+        android:id="@+id/present_bottom_nav"
+        android:title="Absen"
+        android:icon="@drawable/attendance"/>
+
+    <item
+        android:id="@+id/schedule_bottom_nav"
+        android:title="Jadwal"
+        android:icon="@drawable/schedule"/>
+
+    <item
+        android:id="@+id/password_bottom_nav"
+        android:title="Ganti Password"
+        android:icon="@drawable/setting"/>
+</menu>

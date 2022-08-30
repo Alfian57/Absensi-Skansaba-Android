@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Absen Siswa SMKN 1 Bantul</string>
+    <string name="path">http://192.168.0.30:8000</string>
+    <string name="storageUrl">http://192.168.0.30:8000/storage/</string>
+</resources>

@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import com.postingan.absenssiswasmkn1bantul.Respository.PresentRepository;
 
@@ -17,5 +18,9 @@ public class PresentFragmentViewModel extends AndroidViewModel {
 
     public void present(String key){
         presentRepository.present(key);
+    }
+
+    public MutableLiveData<String> getPresent(){
+        return presentRepository.getPresent();
     }
 }

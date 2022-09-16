@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,17 @@ public class PasswordFragment extends Fragment {
             }
         });
 
+        passwordFragmentViewModel.getChangePassword().observe(getActivity(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    Toast.makeText(binding.getRoot().getContext(), "Password Berhasil Diubah", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(binding.getRoot().getContext(), "Password Gagal Diubah", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         binding.btnUpdatePass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,7 +71,7 @@ public class PasswordFragment extends Fragment {
                     binding.inputConfirmPassword.setError("Field Masih Kosong");
                     isSuccess = false;
                 }
-                if (!binding.inputNewPasssword.getText().equals(binding.inputConfirmPassword.getText())){
+                if (!binding.inputNewPasssword.getText().toString().equals(binding.inputConfirmPassword.getText().toString())){
                     Toast.makeText(binding.getRoot().getContext(), "Konfirmasi Password Salah", Toast.LENGTH_SHORT).show();
                     isSuccess = false;
                 }

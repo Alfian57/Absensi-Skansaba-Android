@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import com.postingan.absenssiswasmkn1bantul.Respository.LoginRepository;
 
@@ -15,7 +16,11 @@ public class LoginActivityViewModel extends AndroidViewModel {
         loginRepository = new LoginRepository(application);
     }
 
+    public MutableLiveData<Boolean> getlogin(){
+        return loginRepository.getLogin();
+    }
+
     public void login(String nis, String password){
-        loginRepository.apiLogin(nis, password);
+        loginRepository.login(nis, password);
     }
 }

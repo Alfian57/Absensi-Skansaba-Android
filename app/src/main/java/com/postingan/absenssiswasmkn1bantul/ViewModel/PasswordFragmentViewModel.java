@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.postingan.absenssiswasmkn1bantul.Model.Student;
 import com.postingan.absenssiswasmkn1bantul.Respository.ChangePassRepository;
@@ -23,7 +24,11 @@ public class PasswordFragmentViewModel extends AndroidViewModel {
         changePassRepository.changePass(oldPass, newPass);
     }
 
+    public MutableLiveData<Boolean> getChangePassword(){
+        return changePassRepository.getChangePass();
+    }
+
     public LiveData<Student> detail(){
-        return detailRepository.apiDetail();
+        return detailRepository.userDetail();
     }
 }

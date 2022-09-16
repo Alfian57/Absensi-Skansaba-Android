@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import com.postingan.absenssiswasmkn1bantul.Respository.LoginRepository;
 
@@ -17,6 +18,10 @@ public class MainActivityViewModel extends AndroidViewModel {
     }
 
     public void logout(){
-        loginRepository.apiLogout();
+        loginRepository.logout();
+    }
+
+    public MutableLiveData<Boolean> getlogout(){
+        return loginRepository.getLogout();
     }
 }

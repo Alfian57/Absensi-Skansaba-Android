@@ -4,9 +4,9 @@ import android.Manifest;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,6 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
-import com.postingan.absenssiswasmkn1bantul.R;
 import com.postingan.absenssiswasmkn1bantul.ViewModel.PresentFragmentViewModel;
 import com.postingan.absenssiswasmkn1bantul.databinding.FragmentPresentBinding;
 
@@ -33,9 +32,16 @@ public class PresentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding =  FragmentPresentBinding.inflate(inflater, container, false);
+        binding = FragmentPresentBinding.inflate(inflater, container, false);
 
         presentFragmentViewModel = new ViewModelProvider(this).get(PresentFragmentViewModel.class);
+
+        presentFragmentViewModel.getPresent().observe(getActivity(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Toast.makeText(binding.getRoot().getContext(), s, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Dexter.withActivity(getActivity())
                 .withPermission(Manifest.permission.CAMERA)
@@ -46,7 +52,7 @@ public class PresentFragment extends Fragment {
                             @Override
                             public void handleResult(Result result) {
                                 presentFragmentViewModel.present(result.getText());
-                                binding.zxingScan.startCamera();
+                                binding.zxingScan.resumeCameraPreview(this);
                             }
                         });
                         binding.zxingScan.startCamera();

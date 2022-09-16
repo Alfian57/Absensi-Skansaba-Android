@@ -6,25 +6,29 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.postingan.absenssiswasmkn1bantul.Api.ApiConfig;
 import com.postingan.absenssiswasmkn1bantul.Api.ApiRequest;
 import com.postingan.absenssiswasmkn1bantul.Api.Response.PresentResponse;
 import com.postingan.absenssiswasmkn1bantul.Helper.User;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PresentRepository {
-    private Context context;
     private ApiRequest apiRequest;
     private User user;
+    MutableLiveData<String> presentMutableLiveData;
 
     public PresentRepository(Application application) {
-        this.context = application.getApplicationContext();
-        this.apiRequest = ApiConfig.getClient(context).create(ApiRequest.class);
-        this.user = new User(context);
+        this.apiRequest = ApiConfig.getClient(application).create(ApiRequest.class);
+        this.user = new User(application);
+        presentMutableLiveData = new MutableLiveData<>();
     }
 
     public void present(String key){
@@ -34,20 +38,24 @@ public class PresentRepository {
             public void onResponse(@NonNull Call<PresentResponse> call,@NonNull Response<PresentResponse> response) {
                 if (response.body() != null){
                     if(response.body().getMessage() != null){
-                        Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        presentMutableLiveData.postValue(response.body().getMessage());
                     } else {
-                        Toast.makeText(context, "Gagal Melakukan Absen", Toast.LENGTH_SHORT).show();
+                        presentMutableLiveData.postValue("Gagal Melakukan Absensi");
                     }
                 } else {
-                    Toast.makeText(context, "Gagal Melakukan Absen", Toast.LENGTH_SHORT).show();
+                    presentMutableLiveData.postValue("Gagal Melakukan Absensi");
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<PresentResponse> call,@NonNull Throwable t) {
                 Log.e("Present", t.toString());
-                Toast.makeText(context, "Terjadi Kesalahan Server", Toast.LENGTH_SHORT).show();
+                presentMutableLiveData.postValue("Gagal Melakukan Absensi");
             }
         });
+    }
+
+    public MutableLiveData<String> getPresent(){
+        return presentMutableLiveData;
     }
 }

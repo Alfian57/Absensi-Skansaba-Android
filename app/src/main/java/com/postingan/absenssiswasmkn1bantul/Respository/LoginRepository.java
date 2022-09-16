@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.postingan.absenssiswasmkn1bantul.Api.ApiConfig;
 import com.postingan.absenssiswasmkn1bantul.Api.ApiRequest;
@@ -21,17 +22,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginRepository {
-    private Context context;
     private ApiRequest apiRequest;
     User user;
+    MutableLiveData<Boolean> loginMutableLiveData;
+    MutableLiveData<Boolean> logoutMutableLiveData;
 
     public LoginRepository(Application application) {
-        this.context = application.getApplicationContext();
-        this.apiRequest = ApiConfig.getClient(context).create(ApiRequest.class);
-        this.user = new User(context);
+        this.apiRequest = ApiConfig.getClient(application).create(ApiRequest.class);
+        this.user = new User(application);
+        loginMutableLiveData = new MutableLiveData<>();
+        logoutMutableLiveData = new MutableLiveData<>();
     }
 
-    public void apiLogin(String nis, String password){
+    public void login(String nis, String password){
         Call<LoginDetailResponse> call = apiRequest.Login(nis, password);
         call.enqueue(new Callback<LoginDetailResponse>() {
             @Override
@@ -41,26 +44,16 @@ public class LoginRepository {
                         if (response.body().getData().getStudent() != null){
                             user.setId(response.body().getData().getStudent().getId());
                             user.setToken(response.body().getData().getAccessToken());
-                            Intent i = new Intent(context, MainActivity.class);
-                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(i);
+                            loginMutableLiveData.postValue(true);
                         }
                         else {
-                            if (response.body().getMessage() != null){
-                                Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(context, "Gagal Melakukan Login", Toast.LENGTH_SHORT).show();
-                            }
+                            loginMutableLiveData.postValue(false);
                         }
                     } else {
-                        if (response.body().getMessage() != null){
-                            Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(context, "Gagal Melakukan Login", Toast.LENGTH_SHORT).show();
-                        }
+                        loginMutableLiveData.postValue(false);
                     }
                 } else {
-                    Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
+                    loginMutableLiveData.postValue(false);
                 }
 
             }
@@ -68,34 +61,41 @@ public class LoginRepository {
             @Override
             public void onFailure(@NonNull Call<LoginDetailResponse> call, @NonNull Throwable t) {
                 Log.e("login", t.toString());
-                Toast.makeText(context, "Terjadi Kesalahan Server", Toast.LENGTH_SHORT).show();
+                loginMutableLiveData.postValue(false);
             }
         });
     }
 
-    public void apiLogout(){
+    public MutableLiveData<Boolean> getLogin(){
+        return loginMutableLiveData;
+    }
+
+    public void logout(){
         Call<LogoutResponse> call = apiRequest.Logout(user.getToken());
         call.enqueue(new Callback<LogoutResponse>() {
             @Override
             public void onResponse(@NonNull Call<LogoutResponse> call,@NonNull Response<LogoutResponse> response) {
                 if (response.body() != null){
                     if (response.body().getMessage() != null) {
-                        Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        user.setNullToken();
-                        user.setId(null);
-                        Intent i = new Intent(context, LoginActivity.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(i);
+                        logoutMutableLiveData.postValue(true);
+                    } else {
+                        logoutMutableLiveData.postValue(false);
                     }
                 } else {
-                    Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
+                    logoutMutableLiveData.postValue(false);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<LogoutResponse> call,@NonNull Throwable t) {
                 Log.e("logout", t.toString());
+                logoutMutableLiveData.postValue(false);
             }
         });
     }
+
+    public MutableLiveData<Boolean> getLogout(){
+        return logoutMutableLiveData;
+    }
+
 }

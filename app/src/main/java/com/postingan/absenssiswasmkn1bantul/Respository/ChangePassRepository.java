@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.postingan.absenssiswasmkn1bantul.Api.ApiConfig;
 import com.postingan.absenssiswasmkn1bantul.Api.ApiRequest;
@@ -17,14 +18,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChangePassRepository {
-    private Context context;
     private ApiRequest apiRequest;
     User user;
+    MutableLiveData<Boolean> changePassMutableLiveData;
 
     public ChangePassRepository(Application application) {
-        this.context = application.getApplicationContext();
-        this.apiRequest = ApiConfig.getClient(context).create(ApiRequest.class);
-        user = new User(context);
+        this.apiRequest = ApiConfig.getClient(application).create(ApiRequest.class);
+        user = new User(application);
+        changePassMutableLiveData = new MutableLiveData<>();
     }
 
     public void changePass(String oldPass, String newPass){
@@ -33,22 +34,26 @@ public class ChangePassRepository {
             @Override
             public void onResponse(@NonNull Call<ChangePasswordResponse> call, @NonNull Response<ChangePasswordResponse> response) {
                 if (response.body() != null){
-                    if(response.body().getMessage() != null){
-                        Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    if(response.body().getData() != null){
+                        changePassMutableLiveData.postValue(true);
                     } else {
-                        Toast.makeText(context, "Gagal Mengganti Password", Toast.LENGTH_SHORT).show();
+                        changePassMutableLiveData.postValue(false);
                     }
                 } else {
-                    Toast.makeText(context, "Gagal Mengganti Password", Toast.LENGTH_SHORT).show();
+                    changePassMutableLiveData.postValue(false);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ChangePasswordResponse> call, @NonNull Throwable t) {
                 Log.e("changePass", t.toString());
-                Toast.makeText(context, "Terjadi Kesalahan Server", Toast.LENGTH_SHORT).show();
+                changePassMutableLiveData.postValue(false);
             }
         });
-
     }
+
+    public MutableLiveData<Boolean> getChangePass(){
+        return changePassMutableLiveData;
+    }
+
 }

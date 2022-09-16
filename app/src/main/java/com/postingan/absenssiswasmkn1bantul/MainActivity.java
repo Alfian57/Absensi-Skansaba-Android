@@ -5,15 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.postingan.absenssiswasmkn1bantul.Helper.User;
 import com.postingan.absenssiswasmkn1bantul.UI.HomeFragment;
+import com.postingan.absenssiswasmkn1bantul.UI.LoginActivity;
 import com.postingan.absenssiswasmkn1bantul.UI.PasswordFragment;
 import com.postingan.absenssiswasmkn1bantul.UI.PresentFragment;
 import com.postingan.absenssiswasmkn1bantul.UI.ScheduleFragment;
@@ -23,7 +27,7 @@ import com.postingan.absenssiswasmkn1bantul.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     MainActivityViewModel mainActivityViewModel;
-
+    User user;
     FragmentManager fragmentManager;
     Fragment fragment;
 
@@ -36,6 +40,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
 
         mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        user = new User(MainActivity.this);
+
+        mainActivityViewModel.getlogout().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    user.setNullToken();
+                }
+            }
+        });
 
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragmentContainer, new HomeFragment()).commit();

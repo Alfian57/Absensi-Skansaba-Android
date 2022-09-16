@@ -28,7 +28,7 @@ public class HomeFragment extends Fragment {
 
         homeFragmentViewModel = new ViewModelProvider(this).get(HomeFragmentViewModel.class);
 
-        homeFragmentViewModel.detail().observe(getActivity(), new Observer<Student>() {
+        homeFragmentViewModel.userDetail().observe(getActivity(), new Observer<Student>() {
             @Override
             public void onChanged(Student student) {
                 binding.textNama.setText(student.getName());

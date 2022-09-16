@@ -21,9 +21,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailRepository {
-    private ApiRequest apiRequest;
-    private MutableLiveData<LoginDetailResponse> mutableLiveData;
-    private User user;
+    private final ApiRequest apiRequest;
+    private final MutableLiveData<LoginDetailResponse> mutableLiveData;
+    private final User user;
 
     public DetailRepository(Application application) {
         this.apiRequest = ApiConfig.getClient(application).create(ApiRequest.class);
@@ -32,7 +32,7 @@ public class DetailRepository {
     }
 
     public MutableLiveData<LoginDetailResponse> userDetail() {
-        Call<LoginDetailResponse> call = apiRequest.Me(user.getToken(), Integer.valueOf(user.getId()));
+        Call<LoginDetailResponse> call = apiRequest.Me(user.getToken());
         call.enqueue(new Callback<LoginDetailResponse>() {
             @Override
             public void onResponse(@NonNull Call<LoginDetailResponse> call, @NonNull Response<LoginDetailResponse> response) {

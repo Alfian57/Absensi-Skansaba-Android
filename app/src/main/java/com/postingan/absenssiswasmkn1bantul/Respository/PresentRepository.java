@@ -32,7 +32,7 @@ public class PresentRepository {
     }
 
     public void present(String key){
-        Call<PresentResponse> call = apiRequest.Absen(user.getToken(), user.getId(), key);
+        Call<PresentResponse> call = apiRequest.Absen(user.getToken(), key);
         call.enqueue(new Callback<PresentResponse>() {
             @Override
             public void onResponse(@NonNull Call<PresentResponse> call,@NonNull Response<PresentResponse> response) {

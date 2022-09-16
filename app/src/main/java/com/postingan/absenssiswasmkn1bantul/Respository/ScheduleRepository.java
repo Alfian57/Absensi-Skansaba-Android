@@ -32,8 +32,7 @@ public class ScheduleRepository {
     }
 
     public void schedules(String day){
-
-        Call<GetScheduleResponse> call = apiRequest.MySchedule(user.getToken(), Integer.valueOf(user.getId()), day);
+        Call<GetScheduleResponse> call = apiRequest.MySchedule(user.getToken(), day);
         call.enqueue(new Callback<GetScheduleResponse>() {
             @Override
             public void onResponse(@NonNull Call<GetScheduleResponse> call,@NonNull Response<GetScheduleResponse> response) {

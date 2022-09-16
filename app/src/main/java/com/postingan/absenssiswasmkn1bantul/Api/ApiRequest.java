@@ -26,29 +26,25 @@ public interface ApiRequest {
     @POST("/api/student/present")
     Call<PresentResponse> Absen(
             @Header("Authorization") String token,
-            @Field("id") String id,
             @Field("key") String key
     );
 
-    @GET("/api/student/me/{ID}")
+    @GET("/api/student/me")
     Call<LoginDetailResponse> Me(
-            @Header("Authorization") String token,
-            @Path(value = "ID", encoded = true) Integer id
+            @Header("Authorization") String token
     );
 
     @FormUrlEncoded
-    @POST("/api/student/changePassword/{ID}")
+    @POST("/api/student/changePassword")
     Call<ChangePasswordResponse> UpdatePass(
             @Header("Authorization") String token,
-            @Path(value = "ID", encoded = true) Integer id,
             @Field("oldPassword") String oldPassword,
             @Field("newPassword") String newPassword
     );
 
-    @GET("/api/student/myschedules/{id}/day/{day}")
+    @GET("/api/student/myschedules/{day}")
     Call<GetScheduleResponse> MySchedule(
             @Header("Authorization") String token,
-            @Path(value = "id", encoded = true) Integer id,
             @Path(value = "day", encoded = true) String day
 
     );

@@ -1,9 +1,7 @@
 package com.postingan.absenssiswasmkn1bantul.Respository;
 
 import android.app.Application;
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -18,7 +16,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChangePassRepository {
-    private ApiRequest apiRequest;
+    private final ApiRequest apiRequest;
     User user;
     MutableLiveData<ChangePasswordResponse> changePassMutableLiveData;
 
@@ -29,7 +27,7 @@ public class ChangePassRepository {
     }
 
     public void changePass(String oldPass, String newPass){
-        Call<ChangePasswordResponse> call = apiRequest.UpdatePass(user.getToken(), Integer.valueOf(user.getId()), oldPass, newPass);
+        Call<ChangePasswordResponse> call = apiRequest.UpdatePass(user.getToken(), oldPass, newPass);
         call.enqueue(new Callback<ChangePasswordResponse>() {
             @Override
             public void onResponse(@NonNull Call<ChangePasswordResponse> call, @NonNull Response<ChangePasswordResponse> response) {

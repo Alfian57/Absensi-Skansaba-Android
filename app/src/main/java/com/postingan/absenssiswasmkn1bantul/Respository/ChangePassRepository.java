@@ -20,7 +20,7 @@ import retrofit2.Response;
 public class ChangePassRepository {
     private ApiRequest apiRequest;
     User user;
-    MutableLiveData<Boolean> changePassMutableLiveData;
+    MutableLiveData<ChangePasswordResponse> changePassMutableLiveData;
 
     public ChangePassRepository(Application application) {
         this.apiRequest = ApiConfig.getClient(application).create(ApiRequest.class);
@@ -34,25 +34,21 @@ public class ChangePassRepository {
             @Override
             public void onResponse(@NonNull Call<ChangePasswordResponse> call, @NonNull Response<ChangePasswordResponse> response) {
                 if (response.body() != null){
-                    if(response.body().getData() != null){
-                        changePassMutableLiveData.postValue(true);
-                    } else {
-                        changePassMutableLiveData.postValue(false);
-                    }
+                    changePassMutableLiveData.postValue(response.body());
                 } else {
-                    changePassMutableLiveData.postValue(false);
+                    changePassMutableLiveData.postValue(null);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ChangePasswordResponse> call, @NonNull Throwable t) {
                 Log.e("changePass", t.toString());
-                changePassMutableLiveData.postValue(false);
+                changePassMutableLiveData.postValue(null);
             }
         });
     }
 
-    public MutableLiveData<Boolean> getChangePass(){
+    public MutableLiveData<ChangePasswordResponse> getChangePass(){
         return changePassMutableLiveData;
     }
 

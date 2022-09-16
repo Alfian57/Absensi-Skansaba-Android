@@ -19,6 +19,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.postingan.absenssiswasmkn1bantul.Api.Response.PresentResponse;
 import com.postingan.absenssiswasmkn1bantul.ViewModel.PresentFragmentViewModel;
 import com.postingan.absenssiswasmkn1bantul.databinding.FragmentPresentBinding;
 
@@ -36,10 +37,14 @@ public class PresentFragment extends Fragment {
 
         presentFragmentViewModel = new ViewModelProvider(this).get(PresentFragmentViewModel.class);
 
-        presentFragmentViewModel.getPresent().observe(getActivity(), new Observer<String>() {
+        presentFragmentViewModel.getPresent().observe(getActivity(), new Observer<PresentResponse>() {
             @Override
-            public void onChanged(String s) {
-                Toast.makeText(binding.getRoot().getContext(), s, Toast.LENGTH_SHORT).show();
+            public void onChanged(PresentResponse presentResponse) {
+                if (presentResponse != null){
+                    if (presentResponse.getMessage() != null){
+                        Toast.makeText(binding.getRoot().getContext(), presentResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
 

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.postingan.absenssiswasmkn1bantul.Api.Response.LoginDetailResponse;
 import com.postingan.absenssiswasmkn1bantul.Model.Student;
 import com.postingan.absenssiswasmkn1bantul.R;
 import com.postingan.absenssiswasmkn1bantul.ViewModel.HomeFragmentViewModel;
@@ -28,26 +29,31 @@ public class HomeFragment extends Fragment {
 
         homeFragmentViewModel = new ViewModelProvider(this).get(HomeFragmentViewModel.class);
 
-        homeFragmentViewModel.userDetail().observe(getActivity(), new Observer<Student>() {
+        homeFragmentViewModel.userDetail().observe(getActivity(), new Observer<LoginDetailResponse>() {
             @Override
-            public void onChanged(Student student) {
-                binding.textNama.setText(student.getName());
-                binding.textNisn.setText(student.getNisn());
-                binding.textNis.setText(student.getNis());
-                binding.textTanggalLahir.setText(student.getDateOfBirth());
-                binding.textKelas.setText(student.getGrade());
-                binding.textAlamat.setText(student.getAddress());
+            public void onChanged(LoginDetailResponse loginDetailResponse) {
+                if (loginDetailResponse != null){
+                    if (loginDetailResponse.getData() != null){
+                        Student student = loginDetailResponse.getData().getStudent();
+                        binding.textNama.setText(student.getName());
+                        binding.textNisn.setText(student.getNisn());
+                        binding.textNis.setText(student.getNis());
+                        binding.textTanggalLahir.setText(student.getDateOfBirth());
+                        binding.textKelas.setText(student.getGrade());
+                        binding.textAlamat.setText(student.getAddress());
 
-                if (student.getGender().equals("0")){
-                    binding.textGender.setText("Laki-laki");
-                } else {
-                    binding.textGender.setText("Perempuan");
-                }
+                        if (student.getGender().equals("0")){
+                            binding.textGender.setText("Laki-laki");
+                        } else {
+                            binding.textGender.setText("Perempuan");
+                        }
 
-                if (student.getProfilePic() != null) {
-                    Picasso.get()
-                            .load(getResources().getString(R.string.storageUrl) + student.getProfilePic())
-                            .into(binding.imageStudent);
+                        if (student.getProfilePic() != null) {
+                            Picasso.get()
+                                    .load(getResources().getString(R.string.storageUrl) + student.getProfilePic())
+                                    .into(binding.imageStudent);
+                        }
+                    }
                 }
             }
         });

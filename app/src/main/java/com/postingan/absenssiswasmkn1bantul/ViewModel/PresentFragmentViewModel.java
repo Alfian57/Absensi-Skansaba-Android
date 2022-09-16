@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.postingan.absenssiswasmkn1bantul.Api.Response.PresentResponse;
 import com.postingan.absenssiswasmkn1bantul.Respository.PresentRepository;
 
 public class PresentFragmentViewModel extends AndroidViewModel {
@@ -20,7 +21,7 @@ public class PresentFragmentViewModel extends AndroidViewModel {
         presentRepository.present(key);
     }
 
-    public MutableLiveData<String> getPresent(){
+    public MutableLiveData<PresentResponse> getPresent(){
         return presentRepository.getPresent();
     }
 }

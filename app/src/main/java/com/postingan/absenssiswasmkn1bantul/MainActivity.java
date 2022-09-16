@@ -11,10 +11,13 @@ import androidx.lifecycle.ViewModelProvider;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.postingan.absenssiswasmkn1bantul.Api.Response.LogoutResponse;
 import com.postingan.absenssiswasmkn1bantul.Helper.User;
 import com.postingan.absenssiswasmkn1bantul.UI.HomeFragment;
 import com.postingan.absenssiswasmkn1bantul.UI.LoginActivity;
@@ -42,12 +45,17 @@ public class MainActivity extends AppCompatActivity {
         mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         user = new User(MainActivity.this);
 
-        mainActivityViewModel.getlogout().observe(this, new Observer<Boolean>() {
+        mainActivityViewModel.getLogout().observe(this, new Observer<LogoutResponse>() {
             @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean){
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                    user.setNullToken();
+            public void onChanged(LogoutResponse logoutResponse) {
+                if (logoutResponse != null){
+                    if (logoutResponse.getMessage() != null){
+                        user.setNullToken();
+                        user.setId(null);
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        finish();
+                        Toast.makeText(MainActivity.this, logoutResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -87,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.logout_toolbar_nav) {
-            mainActivityViewModel.logout();
+            mainActivityViewModel.logout(user.getToken());
             return true;
         }
         return super.onOptionsItemSelected(item);

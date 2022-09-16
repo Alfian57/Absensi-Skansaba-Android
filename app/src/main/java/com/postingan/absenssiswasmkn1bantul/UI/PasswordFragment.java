@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.postingan.absenssiswasmkn1bantul.Api.Response.ChangePasswordResponse;
+import com.postingan.absenssiswasmkn1bantul.Api.Response.LoginDetailResponse;
 import com.postingan.absenssiswasmkn1bantul.Model.Student;
 import com.postingan.absenssiswasmkn1bantul.R;
 import com.postingan.absenssiswasmkn1bantul.ViewModel.PasswordFragmentViewModel;
@@ -32,24 +34,33 @@ public class PasswordFragment extends Fragment {
 
         passwordFragmentViewModel = new ViewModelProvider(this).get(PasswordFragmentViewModel.class);
 
-        passwordFragmentViewModel.detail().observe(getActivity(), new Observer<Student>() {
+        passwordFragmentViewModel.detail().observe(getActivity(), new Observer<LoginDetailResponse>() {
             @Override
-            public void onChanged(Student student) {
-                if (student.getProfilePic() != null) {
-                    Picasso.get()
-                            .load(binding.getRoot().getContext().getResources().getString(R.string.storageUrl) + student.getProfilePic())
-                            .into(binding.imageStudentPass);
+            public void onChanged(LoginDetailResponse loginDetailResponse) {
+                if (loginDetailResponse != null){
+                    if (loginDetailResponse.getData() != null){
+                        Student student = loginDetailResponse.getData().getStudent();
+                        if (student.getProfilePic() != null) {
+                            Picasso.get()
+                                    .load(binding.getRoot().getContext().getResources().getString(R.string.storageUrl) + student.getProfilePic())
+                                    .into(binding.imageStudentPass);
+                        }
+                    }
                 }
             }
         });
 
-        passwordFragmentViewModel.getChangePassword().observe(getActivity(), new Observer<Boolean>() {
+        passwordFragmentViewModel.getChangePassword().observe(getActivity(), new Observer<ChangePasswordResponse>() {
             @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean){
-                    Toast.makeText(binding.getRoot().getContext(), "Password Berhasil Diubah", Toast.LENGTH_SHORT).show();
+            public void onChanged(ChangePasswordResponse changePasswordResponse) {
+                if (changePasswordResponse != null){
+                    if (changePasswordResponse.getMessage() != null){
+                        Toast.makeText(binding.getRoot().getContext(), changePasswordResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(binding.getRoot().getContext(), "Gagal Mengganti Password", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(binding.getRoot().getContext(), "Password Gagal Diubah", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(binding.getRoot().getContext(), "Gagal Mengganti Password", Toast.LENGTH_SHORT).show();
                 }
             }
         });

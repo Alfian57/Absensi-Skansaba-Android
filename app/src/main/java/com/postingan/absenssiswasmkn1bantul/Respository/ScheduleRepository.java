@@ -21,38 +21,24 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ScheduleRepository {
-    private ApiRequest apiRequest;
-    private User user;
-    MutableLiveData<String> scheduleMutableLiveData;
+    private final ApiRequest apiRequest;
+    User user;
+    MutableLiveData<GetScheduleResponse> scheduleMutableLiveData;
 
     public ScheduleRepository(Application application) {
         this.apiRequest = ApiConfig.getClient(application).create(ApiRequest.class);
-        this.user = new User(application);
+        user = new User(application);
         scheduleMutableLiveData = new MutableLiveData<>();
     }
 
     public void schedules(String day){
-        StringBuilder message = new StringBuilder();
 
         Call<GetScheduleResponse> call = apiRequest.MySchedule(user.getToken(), Integer.valueOf(user.getId()), day);
         call.enqueue(new Callback<GetScheduleResponse>() {
             @Override
             public void onResponse(@NonNull Call<GetScheduleResponse> call,@NonNull Response<GetScheduleResponse> response) {
                 if (response.body() != null){
-                    if (response.body().getData() != null){
-                        for (Schedule schedule:response.body().getData().getSchedules()) {
-                            message.append("Mapel\t\t: ").append(schedule.getSubjectName()).append("\n");
-                            message.append("Mulai\t\t\t: ").append(schedule.getTimeStart()).append("\n");
-                            message.append("Selesai\t: ").append(schedule.getTimeFinish()).append("\n\n");
-                            scheduleMutableLiveData.postValue(message.toString());
-                        }
-                        if (response.body().getData().getSchedules().size() == 0){
-                            message.append("Jadwal Masih Kosong");
-                            scheduleMutableLiveData.postValue(message.toString());
-                        }
-                    } else {
-                        scheduleMutableLiveData.postValue(null);
-                    }
+                    scheduleMutableLiveData.postValue(response.body());
                 } else {
                     scheduleMutableLiveData.postValue(null);
                 }
@@ -67,7 +53,7 @@ public class ScheduleRepository {
         });
     }
 
-    public MutableLiveData<String> getSchedule(){
+    public MutableLiveData<GetScheduleResponse> getSchedule(){
         return scheduleMutableLiveData;
     }
 }

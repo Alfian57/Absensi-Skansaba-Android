@@ -23,13 +23,11 @@ import retrofit2.Response;
 
 public class LoginRepository {
     private ApiRequest apiRequest;
-    User user;
-    MutableLiveData<Boolean> loginMutableLiveData;
-    MutableLiveData<Boolean> logoutMutableLiveData;
+    MutableLiveData<LoginDetailResponse> loginMutableLiveData;
+    MutableLiveData<LogoutResponse> logoutMutableLiveData;
 
     public LoginRepository(Application application) {
         this.apiRequest = ApiConfig.getClient(application).create(ApiRequest.class);
-        this.user = new User(application);
         loginMutableLiveData = new MutableLiveData<>();
         logoutMutableLiveData = new MutableLiveData<>();
     }
@@ -40,20 +38,9 @@ public class LoginRepository {
             @Override
             public void onResponse(@NonNull Call<LoginDetailResponse> call, @NonNull Response<LoginDetailResponse> response) {
                 if (response.body() != null){
-                    if (response.body().getData() != null){
-                        if (response.body().getData().getStudent() != null){
-                            user.setId(response.body().getData().getStudent().getId());
-                            user.setToken(response.body().getData().getAccessToken());
-                            loginMutableLiveData.postValue(true);
-                        }
-                        else {
-                            loginMutableLiveData.postValue(false);
-                        }
-                    } else {
-                        loginMutableLiveData.postValue(false);
-                    }
+                    loginMutableLiveData.postValue(response.body());
                 } else {
-                    loginMutableLiveData.postValue(false);
+                    loginMutableLiveData.postValue(null);
                 }
 
             }
@@ -61,40 +48,36 @@ public class LoginRepository {
             @Override
             public void onFailure(@NonNull Call<LoginDetailResponse> call, @NonNull Throwable t) {
                 Log.e("login", t.toString());
-                loginMutableLiveData.postValue(false);
+                loginMutableLiveData.postValue(null);
             }
         });
     }
 
-    public MutableLiveData<Boolean> getLogin(){
+    public MutableLiveData<LoginDetailResponse> getLogin(){
         return loginMutableLiveData;
     }
 
-    public void logout(){
-        Call<LogoutResponse> call = apiRequest.Logout(user.getToken());
+    public void logout(String token){
+        Call<LogoutResponse> call = apiRequest.Logout(token);
         call.enqueue(new Callback<LogoutResponse>() {
             @Override
             public void onResponse(@NonNull Call<LogoutResponse> call,@NonNull Response<LogoutResponse> response) {
                 if (response.body() != null){
-                    if (response.body().getMessage() != null) {
-                        logoutMutableLiveData.postValue(true);
-                    } else {
-                        logoutMutableLiveData.postValue(false);
-                    }
+                    logoutMutableLiveData.postValue(response.body());
                 } else {
-                    logoutMutableLiveData.postValue(false);
+                    logoutMutableLiveData.postValue(null);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<LogoutResponse> call,@NonNull Throwable t) {
                 Log.e("logout", t.toString());
-                logoutMutableLiveData.postValue(false);
+                logoutMutableLiveData.postValue(null);
             }
         });
     }
 
-    public MutableLiveData<Boolean> getLogout(){
+    public MutableLiveData<LogoutResponse> getLogout(){
         return logoutMutableLiveData;
     }
 

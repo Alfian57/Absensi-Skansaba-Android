@@ -22,7 +22,7 @@ import retrofit2.Response;
 
 public class DetailRepository {
     private ApiRequest apiRequest;
-    private MutableLiveData<Student> mutableLiveData;
+    private MutableLiveData<LoginDetailResponse> mutableLiveData;
     private User user;
 
     public DetailRepository(Application application) {
@@ -31,23 +31,22 @@ public class DetailRepository {
         mutableLiveData = new MutableLiveData<>();
     }
 
-    public MutableLiveData<Student> userDetail() {
+    public MutableLiveData<LoginDetailResponse> userDetail() {
         Call<LoginDetailResponse> call = apiRequest.Me(user.getToken(), Integer.valueOf(user.getId()));
         call.enqueue(new Callback<LoginDetailResponse>() {
             @Override
             public void onResponse(@NonNull Call<LoginDetailResponse> call, @NonNull Response<LoginDetailResponse> response) {
                 if (response.body() != null) {
-                    if (response.body().getData() != null) {
-                        if (response.body().getData().getStudent() != null) {
-                            mutableLiveData.postValue(response.body().getData().getStudent());
-                        }
-                    }
+                    mutableLiveData.postValue(response.body());
+                } else {
+                    mutableLiveData.postValue(null);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<LoginDetailResponse> call, @NonNull Throwable t) {
                 Log.e("detail", t.toString());
+                mutableLiveData.postValue(null);
             }
         });
 

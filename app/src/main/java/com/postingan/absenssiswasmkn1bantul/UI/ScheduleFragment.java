@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.postingan.absenssiswasmkn1bantul.Adapter.DayAdapter;
+import com.postingan.absenssiswasmkn1bantul.Api.Response.GetScheduleResponse;
+import com.postingan.absenssiswasmkn1bantul.Model.Schedule;
 import com.postingan.absenssiswasmkn1bantul.ViewModel.ScheduleFragmentViewModel;
 import com.postingan.absenssiswasmkn1bantul.databinding.FragmentScheduleBinding;
 
@@ -42,23 +44,44 @@ public class ScheduleFragment extends Fragment {
 
         scheduleFragmentViewModel = new ViewModelProvider(this).get(ScheduleFragmentViewModel.class);
 
-        scheduleFragmentViewModel.getSchedule().observe(getActivity(), new Observer<String>() {
+        scheduleFragmentViewModel.getSchedule().observe(getActivity(), new Observer<GetScheduleResponse>() {
             @Override
-            public void onChanged(String s) {
-                if (s != null){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(binding.getRoot().getContext());
-                    builder.setTitle("Jadwal");
-                    builder.setMessage(s);
-                    builder.setNegativeButton("Tutup", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
+            public void onChanged(GetScheduleResponse getScheduleResponse) {
+                StringBuilder message = new StringBuilder();
+
+                if (getScheduleResponse != null){
+                    if (getScheduleResponse.getData() != null) {
+                        if (getScheduleResponse.getData().getSchedules() != null) {
+                            for (Schedule schedule:getScheduleResponse.getData().getSchedules()) {
+                                message.append("Mapel\t\t: ").append(schedule.getSubjectName()).append("\n");
+                                message.append("Mulai\t\t\t: ").append(schedule.getTimeStart()).append("\n");
+                                message.append("Selesai\t: ").append(schedule.getTimeFinish()).append("\n\n");
+                            }
+                            if (getScheduleResponse.getData().getSchedules().size() == 0){
+                                message.append("Jadwal Masih Kosong");
+                            }
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(binding.getRoot().getContext());
+                            builder.setTitle("Jadwal");
+                            builder.setMessage(message);
+                            builder.setNegativeButton("Tutup", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
                         }
-                    });
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
+                    }
+
+                    if (getScheduleResponse.getMessage() != null){
+                        Toast.makeText(binding.getRoot().getContext(), getScheduleResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(binding.getRoot().getContext(), "Gagal Menampilkan Jadwal", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(binding.getRoot().getContext(), "Gagal Mendapatkan Jadwal", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(binding.getRoot().getContext(), "Gagal Menampilkan Jadwal", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.postingan.absenssiswasmkn1bantul.Api.Response.GetScheduleResponse;
 import com.postingan.absenssiswasmkn1bantul.Respository.ScheduleRepository;
 
 public class ScheduleFragmentViewModel extends AndroidViewModel {
@@ -21,7 +22,7 @@ public class ScheduleFragmentViewModel extends AndroidViewModel {
         scheduleRepository.schedules(day);
     }
 
-    public MutableLiveData<String> getSchedule(){
+    public MutableLiveData<GetScheduleResponse> getSchedule(){
         return scheduleRepository.getSchedule();
     }
 }

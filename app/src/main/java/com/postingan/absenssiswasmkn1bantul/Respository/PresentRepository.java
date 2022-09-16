@@ -23,7 +23,7 @@ import retrofit2.Response;
 public class PresentRepository {
     private ApiRequest apiRequest;
     private User user;
-    MutableLiveData<String> presentMutableLiveData;
+    MutableLiveData<PresentResponse> presentMutableLiveData;
 
     public PresentRepository(Application application) {
         this.apiRequest = ApiConfig.getClient(application).create(ApiRequest.class);
@@ -37,25 +37,21 @@ public class PresentRepository {
             @Override
             public void onResponse(@NonNull Call<PresentResponse> call,@NonNull Response<PresentResponse> response) {
                 if (response.body() != null){
-                    if(response.body().getMessage() != null){
-                        presentMutableLiveData.postValue(response.body().getMessage());
-                    } else {
-                        presentMutableLiveData.postValue("Gagal Melakukan Absensi");
-                    }
+                    presentMutableLiveData.postValue(response.body());
                 } else {
-                    presentMutableLiveData.postValue("Gagal Melakukan Absensi");
+                    presentMutableLiveData.postValue(null);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<PresentResponse> call,@NonNull Throwable t) {
                 Log.e("Present", t.toString());
-                presentMutableLiveData.postValue("Gagal Melakukan Absensi");
+                presentMutableLiveData.postValue(null);
             }
         });
     }
 
-    public MutableLiveData<String> getPresent(){
+    public MutableLiveData<PresentResponse> getPresent(){
         return presentMutableLiveData;
     }
 }

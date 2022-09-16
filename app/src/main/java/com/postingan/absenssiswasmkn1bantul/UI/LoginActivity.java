@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.postingan.absenssiswasmkn1bantul.Api.Response.LoginDetailResponse;
+import com.postingan.absenssiswasmkn1bantul.Helper.User;
 import com.postingan.absenssiswasmkn1bantul.MainActivity;
 import com.postingan.absenssiswasmkn1bantul.R;
 import com.postingan.absenssiswasmkn1bantul.ViewModel.LoginActivityViewModel;
@@ -17,6 +19,7 @@ import com.postingan.absenssiswasmkn1bantul.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
+    User user;
     LoginActivityViewModel loginActivityViewModel;
 
     @Override
@@ -27,15 +30,24 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(view);
 
         loginActivityViewModel = new ViewModelProvider(this).get(LoginActivityViewModel.class);
+        user = new User(LoginActivity.this);
 
-        loginActivityViewModel.getlogin().observe(this, new Observer<Boolean>() {
+        loginActivityViewModel.getlogin().observe(this, new Observer<LoginDetailResponse>() {
             @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean) {
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
+            public void onChanged(LoginDetailResponse loginDetailResponse) {
+                if (loginDetailResponse != null){
+                    if (loginDetailResponse.getData() != null){
+                        if (loginDetailResponse.getData().getAccessToken() != null){
+                            user.setToken(loginDetailResponse.getData().getAccessToken());
+                            user.setId(loginDetailResponse.getData().getStudent().getId());
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
+                        }
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Gagal Melakukan Login", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(LoginActivity.this, "Login Gagal", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Gagal Melakukan Login", Toast.LENGTH_SHORT).show();
                 }
             }
         });

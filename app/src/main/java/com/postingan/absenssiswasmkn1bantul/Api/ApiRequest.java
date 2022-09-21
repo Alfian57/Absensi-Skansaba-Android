@@ -1,6 +1,7 @@
 package com.postingan.absenssiswasmkn1bantul.Api;
 
 import com.postingan.absenssiswasmkn1bantul.Api.Response.ChangePasswordResponse;
+import com.postingan.absenssiswasmkn1bantul.Api.Response.GetAttendanceResponse;
 import com.postingan.absenssiswasmkn1bantul.Api.Response.GetScheduleResponse;
 import com.postingan.absenssiswasmkn1bantul.Api.Response.LoginDetailResponse;
 import com.postingan.absenssiswasmkn1bantul.Api.Response.LogoutResponse;
@@ -12,7 +13,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiRequest {
     @FormUrlEncoded
@@ -42,15 +43,22 @@ public interface ApiRequest {
             @Field("newPassword") String newPassword
     );
 
-    @GET("/api/student/myschedules/{day}")
+    @GET("/api/student/myschedules")
     Call<GetScheduleResponse> MySchedule(
             @Header("Authorization") String token,
-            @Path(value = "day", encoded = true) String day
+            @Query("day") String day
 
     );
 
     @POST("/api/student/logout")
     Call<LogoutResponse> Logout(
             @Header("Authorization") String token
+    );
+
+    @GET("/api/student/myAttendance")
+    Call<GetAttendanceResponse> MyAttendance(
+            @Header("Authorization") String token,
+            @Query("month") Integer month,
+            @Query("year") Integer year
     );
 }

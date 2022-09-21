@@ -1,5 +1,6 @@
 package com.postingan.absenssiswasmkn1bantul.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.postingan.absenssiswasmkn1bantul.Api.Response.LoginDetailResponse;
+import com.postingan.absenssiswasmkn1bantul.MainActivity;
 import com.postingan.absenssiswasmkn1bantul.Model.Student;
 import com.postingan.absenssiswasmkn1bantul.R;
 import com.postingan.absenssiswasmkn1bantul.ViewModel.HomeFragmentViewModel;
@@ -55,6 +57,13 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 }
+            }
+        });
+
+        binding.btnAttendance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), AttendanceActivity.class));
             }
         });
 

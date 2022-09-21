@@ -1,11 +1,7 @@
 package com.postingan.absenssiswasmkn1bantul.Respository;
 
-import android.app.AlertDialog;
 import android.app.Application;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -14,7 +10,6 @@ import com.postingan.absenssiswasmkn1bantul.Api.ApiConfig;
 import com.postingan.absenssiswasmkn1bantul.Api.ApiRequest;
 import com.postingan.absenssiswasmkn1bantul.Api.Response.GetScheduleResponse;
 import com.postingan.absenssiswasmkn1bantul.Helper.User;
-import com.postingan.absenssiswasmkn1bantul.Model.Schedule;
 
 import retrofit2.Call;
 import retrofit2.Callback;

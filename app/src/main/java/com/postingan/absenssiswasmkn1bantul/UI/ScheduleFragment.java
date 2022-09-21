@@ -74,12 +74,6 @@ public class ScheduleFragment extends Fragment {
                             alertDialog.show();
                         }
                     }
-
-                    if (getScheduleResponse.getMessage() != null){
-                        Toast.makeText(binding.getRoot().getContext(), getScheduleResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(binding.getRoot().getContext(), "Gagal Menampilkan Jadwal", Toast.LENGTH_SHORT).show();
-                    }
                 } else {
                     Toast.makeText(binding.getRoot().getContext(), "Gagal Menampilkan Jadwal", Toast.LENGTH_SHORT).show();
                 }

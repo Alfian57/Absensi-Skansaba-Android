@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Absensi Siswa SMKN 1 Bantul</string>
-    <string name="path">http://192.168.43.127:8000</string>
-    <string name="storageUrl">http://192.168.43.127:8000/storage/</string>
+    <string name="path">http://192.168.0.29:8000</string>
+    <string name="storageUrl">http://192.168.0.29:8000/storage/</string>
 </resources>

@@ -20,6 +20,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.postingan.absenssiswasmkn1bantul.Api.Response.PresentResponse;
+import com.postingan.absenssiswasmkn1bantul.R;
 import com.postingan.absenssiswasmkn1bantul.ViewModel.PresentFragmentViewModel;
 import com.postingan.absenssiswasmkn1bantul.databinding.FragmentPresentBinding;
 
@@ -57,7 +58,7 @@ public class PresentFragment extends Fragment {
                             @Override
                             public void handleResult(Result result) {
                                 presentFragmentViewModel.present(result.getText());
-                                binding.zxingScan.resumeCameraPreview(this);
+                                getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment()).commit();
                             }
                         });
                         binding.zxingScan.startCamera();

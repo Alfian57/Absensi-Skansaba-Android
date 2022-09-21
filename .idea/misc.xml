@@ -8,9 +8,12 @@
         <entry key="..\:/AlfianGadingSaputra_XIIRPL1/PKL/Absensi-Siswa-Android/app/src/main/res/drawable/background_profile.xml" value="0.143" />
         <entry key="..\:/AlfianGadingSaputra_XIIRPL1/PKL/Absensi-Siswa-Android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/AlfianGadingSaputra_XIIRPL1/PKL/Absensi-Siswa-Android/app/src/main/res/drawable/user_icon.xml" value="0.143" />
+        <entry key="..\:/AlfianGadingSaputra_XIIRPL1/PKL/Absensi-Siswa-Android/app/src/main/res/layout/activity_attendance.xml" value="0.14356884057971014" />
         <entry key="..\:/AlfianGadingSaputra_XIIRPL1/PKL/Absensi-Siswa-Android/app/src/main/res/layout/activity_login.xml" value="0.22" />
         <entry key="..\:/AlfianGadingSaputra_XIIRPL1/PKL/Absensi-Siswa-Android/app/src/main/res/layout/activity_main.xml" value="0.14130434782608695" />
         <entry key="..\:/AlfianGadingSaputra_XIIRPL1/PKL/Absensi-Siswa-Android/app/src/main/res/layout/activity_splash_screen.xml" value="0.22" />
+        <entry key="..\:/AlfianGadingSaputra_XIIRPL1/PKL/Absensi-Siswa-Android/app/src/main/res/layout/attendance_row.xml" value="0.14356884057971014" />
+        <entry key="..\:/AlfianGadingSaputra_XIIRPL1/PKL/Absensi-Siswa-Android/app/src/main/res/layout/fragment_date_picker.xml" value="0.14356884057971014" />
         <entry key="..\:/AlfianGadingSaputra_XIIRPL1/PKL/Absensi-Siswa-Android/app/src/main/res/layout/fragment_detail_schedule.xml" value="0.16757246376811594" />
         <entry key="..\:/AlfianGadingSaputra_XIIRPL1/PKL/Absensi-Siswa-Android/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/AlfianGadingSaputra_XIIRPL1/PKL/Absensi-Siswa-Android/app/src/main/res/layout/fragment_login.xml" value="0.17552083333333332" />

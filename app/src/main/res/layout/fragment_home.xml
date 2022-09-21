@@ -158,8 +158,19 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnAttendance"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginVertical="5dp"
+                    android:drawablePadding="15dp"
+                    android:text="Rekap Absensi"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
             </RelativeLayout>
 
             <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"

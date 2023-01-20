@@ -17,7 +17,7 @@ public class LoginActivityViewModel extends AndroidViewModel {
         loginRepository = new LoginRepository(application);
     }
 
-    public MutableLiveData<LoginDetailResponse> getlogin(){
+    public MutableLiveData<LoginDetailResponse> getLogin(){
         return loginRepository.getLogin();
     }
 

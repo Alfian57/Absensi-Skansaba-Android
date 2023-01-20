@@ -21,22 +21,22 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.postingan.absenssiswasmkn1bantul.Api.Response.PresentResponse;
 import com.postingan.absenssiswasmkn1bantul.R;
-import com.postingan.absenssiswasmkn1bantul.ViewModel.PresentFragmentViewModel;
-import com.postingan.absenssiswasmkn1bantul.databinding.FragmentPresentBinding;
+import com.postingan.absenssiswasmkn1bantul.ViewModel.AttendanceFragmentViewModel;
+import com.postingan.absenssiswasmkn1bantul.databinding.FragmentAttendanceBinding;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 
-public class PresentFragment extends Fragment {
-    FragmentPresentBinding binding;
-    PresentFragmentViewModel presentFragmentViewModel;
+public class AttendanceFragment extends Fragment {
+    FragmentAttendanceBinding binding;
+    AttendanceFragmentViewModel presentFragmentViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentPresentBinding.inflate(inflater, container, false);
+        binding = FragmentAttendanceBinding.inflate(inflater, container, false);
 
-        presentFragmentViewModel = new ViewModelProvider(this).get(PresentFragmentViewModel.class);
+        presentFragmentViewModel = new ViewModelProvider(this).get(AttendanceFragmentViewModel.class);
 
         presentFragmentViewModel.getPresent().observe(getActivity(), new Observer<PresentResponse>() {
             @Override

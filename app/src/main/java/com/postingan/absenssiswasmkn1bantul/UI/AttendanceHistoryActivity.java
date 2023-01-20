@@ -7,26 +7,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.postingan.absenssiswasmkn1bantul.Adapter.AttendanceAdapter;
 import com.postingan.absenssiswasmkn1bantul.Api.Response.GetAttendanceResponse;
-import com.postingan.absenssiswasmkn1bantul.Model.Attendance;
-import com.postingan.absenssiswasmkn1bantul.ViewModel.AttendanceActivityViewModel;
-import com.postingan.absenssiswasmkn1bantul.databinding.ActivityAttendanceBinding;
+import com.postingan.absenssiswasmkn1bantul.ViewModel.AttendanceHistoryActivityViewModel;
+import com.postingan.absenssiswasmkn1bantul.databinding.ActivityAttendanceHistoryBinding;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class AttendanceActivity extends AppCompatActivity {
-    ActivityAttendanceBinding binding;
-    AttendanceActivityViewModel attendanceActivityViewModel;
+public class AttendanceHistoryActivity extends AppCompatActivity {
+    ActivityAttendanceHistoryBinding binding;
+    AttendanceHistoryActivityViewModel attendanceActivityViewModel;
     DatePickerFragment dp;
     Integer currentMonth;
     Integer currentYear;
@@ -34,7 +31,7 @@ public class AttendanceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityAttendanceBinding.inflate(getLayoutInflater());
+        binding = ActivityAttendanceHistoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         DateFormat month = new SimpleDateFormat("MM");
@@ -48,7 +45,7 @@ public class AttendanceActivity extends AppCompatActivity {
         dp.setMonthValue(currentMonth);
         dp.setYearValue(currentYear);
 
-        attendanceActivityViewModel = new ViewModelProvider(this).get(AttendanceActivityViewModel.class);
+        attendanceActivityViewModel = new ViewModelProvider(this).get(AttendanceHistoryActivityViewModel.class);
 
         attendanceActivityViewModel.getMyAttendance(currentMonth, currentYear);
 
@@ -62,9 +59,9 @@ public class AttendanceActivity extends AppCompatActivity {
                         binding.txtAttendanceNull.setVisibility(View.VISIBLE);
                     }
                     binding.rvAttendance.setAdapter(new AttendanceAdapter(getAttendanceResponse.getData()));
-                    binding.rvAttendance.setLayoutManager(new LinearLayoutManager(AttendanceActivity.this, RecyclerView.VERTICAL, false));
+                    binding.rvAttendance.setLayoutManager(new LinearLayoutManager(AttendanceHistoryActivity.this, RecyclerView.VERTICAL, false));
                 } else {
-                    Toast.makeText(AttendanceActivity.this, "Gagal Mendapatkan Rekap", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AttendanceHistoryActivity.this, "Gagal Mendapatkan Rekap", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -20,7 +20,7 @@
         android:theme="@style/Theme.AbsensSiswaSMKN1Bantul"
         tools:targetApi="31">
         <activity
-            android:name=".UI.AttendanceActivity"
+            android:name=".UI.AttendanceHistoryActivity"
             android:exported="false" />
         <activity
             android:name=".UI.SplashScreenActivity"

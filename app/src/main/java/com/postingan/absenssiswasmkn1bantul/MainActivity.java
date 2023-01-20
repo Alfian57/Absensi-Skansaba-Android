@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,8 +20,8 @@ import com.postingan.absenssiswasmkn1bantul.Api.Response.LogoutResponse;
 import com.postingan.absenssiswasmkn1bantul.Helper.User;
 import com.postingan.absenssiswasmkn1bantul.UI.HomeFragment;
 import com.postingan.absenssiswasmkn1bantul.UI.LoginActivity;
-import com.postingan.absenssiswasmkn1bantul.UI.PasswordFragment;
-import com.postingan.absenssiswasmkn1bantul.UI.PresentFragment;
+import com.postingan.absenssiswasmkn1bantul.UI.ChangePasswordFragment;
+import com.postingan.absenssiswasmkn1bantul.UI.AttendanceFragment;
 import com.postingan.absenssiswasmkn1bantul.UI.ScheduleFragment;
 import com.postingan.absenssiswasmkn1bantul.ViewModel.MainActivityViewModel;
 import com.postingan.absenssiswasmkn1bantul.databinding.ActivityMainBinding;
@@ -70,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new HomeFragment();
                     break;
                 case R.id.present_bottom_nav:
-                    fragment = new PresentFragment();
+                    fragment = new AttendanceFragment();
                     break;
                 case R.id.password_bottom_nav:
-                    fragment = new PasswordFragment();
+                    fragment = new ChangePasswordFragment();
                     break;
                 case R.id.schedule_bottom_nav:
                     fragment = new ScheduleFragment();

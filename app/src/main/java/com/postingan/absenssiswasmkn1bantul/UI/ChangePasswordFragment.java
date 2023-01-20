@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,23 +15,21 @@ import com.postingan.absenssiswasmkn1bantul.Api.Response.ChangePasswordResponse;
 import com.postingan.absenssiswasmkn1bantul.Api.Response.LoginDetailResponse;
 import com.postingan.absenssiswasmkn1bantul.Model.Student;
 import com.postingan.absenssiswasmkn1bantul.R;
-import com.postingan.absenssiswasmkn1bantul.ViewModel.PasswordFragmentViewModel;
-import com.postingan.absenssiswasmkn1bantul.ViewModel.PresentFragmentViewModel;
-import com.postingan.absenssiswasmkn1bantul.databinding.FragmentPasswordBinding;
-import com.postingan.absenssiswasmkn1bantul.databinding.FragmentPresentBinding;
+import com.postingan.absenssiswasmkn1bantul.ViewModel.ChangePasswordFragmentViewModel;
+import com.postingan.absenssiswasmkn1bantul.databinding.FragmentChangePasswordBinding;
 import com.squareup.picasso.Picasso;
 
-public class PasswordFragment extends Fragment {
-    PasswordFragmentViewModel passwordFragmentViewModel;
-    FragmentPasswordBinding binding;
+public class ChangePasswordFragment extends Fragment {
+    ChangePasswordFragmentViewModel passwordFragmentViewModel;
+    FragmentChangePasswordBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentPasswordBinding.inflate(inflater, container, false);
+        binding = FragmentChangePasswordBinding.inflate(inflater, container, false);
 
-        passwordFragmentViewModel = new ViewModelProvider(this).get(PasswordFragmentViewModel.class);
+        passwordFragmentViewModel = new ViewModelProvider(this).get(ChangePasswordFragmentViewModel.class);
 
         passwordFragmentViewModel.detail().observe(getActivity(), new Observer<LoginDetailResponse>() {
             @Override

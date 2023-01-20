@@ -1,9 +1,7 @@
 package com.postingan.absenssiswasmkn1bantul.Respository;
 
 import android.app.Application;
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -14,20 +12,17 @@ import com.postingan.absenssiswasmkn1bantul.Api.Response.GetAttendanceResponse;
 import com.postingan.absenssiswasmkn1bantul.Api.Response.PresentResponse;
 import com.postingan.absenssiswasmkn1bantul.Helper.User;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PresentRepository {
+public class AttendanceRepository {
     private final ApiRequest apiRequest;
     private final User user;
     MutableLiveData<PresentResponse> presentMutableLiveData;
     MutableLiveData<GetAttendanceResponse> myAttendanceMutableLiveData;
 
-    public PresentRepository(Application application) {
+    public AttendanceRepository(Application application) {
         this.apiRequest = ApiConfig.getClient(application).create(ApiRequest.class);
         this.user = new User(application);
         presentMutableLiveData = new MutableLiveData<>();

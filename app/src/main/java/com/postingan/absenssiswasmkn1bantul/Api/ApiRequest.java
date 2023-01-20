@@ -36,14 +36,14 @@ public interface ApiRequest {
     );
 
     @FormUrlEncoded
-    @POST("/api/student/changePassword")
+    @POST("/api/student/change-password")
     Call<ChangePasswordResponse> UpdatePass(
             @Header("Authorization") String token,
             @Field("oldPassword") String oldPassword,
             @Field("newPassword") String newPassword
     );
 
-    @GET("/api/student/myschedules")
+    @GET("/api/student/my-schedules")
     Call<GetScheduleResponse> MySchedule(
             @Header("Authorization") String token,
             @Query("day") String day
@@ -55,7 +55,7 @@ public interface ApiRequest {
             @Header("Authorization") String token
     );
 
-    @GET("/api/student/myAttendance")
+    @GET("/api/student/my-attendance")
     Call<GetAttendanceResponse> MyAttendance(
             @Header("Authorization") String token,
             @Query("month") Integer month,
